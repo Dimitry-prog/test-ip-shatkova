@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
+import { Toaster } from '@/shared/components/ui/sonner';
 import { cn } from '@/shared/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -20,8 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
-        {children}
+      <body
+        className={cn(
+          'grid min-h-[100dvh] grid-rows-1 bg-background font-sans antialiased',
+          inter.variable
+        )}
+      >
+        <main className="container my-6">{children}</main>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
