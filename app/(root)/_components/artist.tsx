@@ -16,7 +16,7 @@ const Artist = async ({ search, entity }: ArtistProps) => {
 
   return (
     <section className="flex flex-col items-center gap-5">
-      {(data.results?.length > 0 || entity) && <Filters />}
+      {(data.results?.length > 0 || entity) && search && <Filters />}
 
       {search && data.results?.length === 0 && (
         <p className="text-center text-xl">No results found</p>
