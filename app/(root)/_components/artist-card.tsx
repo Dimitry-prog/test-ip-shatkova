@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { TunesDTOType } from '@/app/(root)/_types';
+import { getCategoryType } from '@/app/(root)/utils';
 import DownloadButton from '@/shared/components/download-button';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -23,7 +24,12 @@ const ArtistCard = ({ data }: ArtistCardProps) => {
   return (
     <Card className="flex flex-col overflow-hidden">
       <div className="w-ful relative aspect-video h-auto">
-        <Image src={data.artworkUrl100} alt={data.trackName} fill />
+        <Image
+          src={data.artworkUrl100}
+          alt={data.trackName}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
 
       <CardHeader className="flex-1">
@@ -32,7 +38,7 @@ const ArtistCard = ({ data }: ArtistCardProps) => {
       </CardHeader>
 
       <CardContent className="flex items-center justify-between">
-        {data.kind && <p>{data.kind}</p>}
+        <p>{getCategoryType(data.kind)}</p>
         <div className="flex items-center justify-between gap-4">
           <p>{data.country}</p>
           {data.trackPrice && <p className="text-xl font-semibold">{data.trackPrice}$</p>}
