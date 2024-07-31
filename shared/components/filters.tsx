@@ -15,6 +15,7 @@ const Filters = () => {
       params.delete('entity');
     } else {
       params.set('entity', value);
+      params.set('page', '1');
     }
 
     router.replace(`${pathname}?${params}`, { scroll: false });

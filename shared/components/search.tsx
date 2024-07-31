@@ -19,8 +19,10 @@ const Search = () => {
     if (!debouncedSearch) {
       params.delete('search');
       params.delete('entity');
+      params.delete('page');
     } else {
       params.set('search', debouncedSearch);
+      params.set('page', '1');
     }
 
     router.replace(`${pathname}?${params}`, { scroll: false });

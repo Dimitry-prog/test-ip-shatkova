@@ -1,13 +1,15 @@
-import { Loader2 } from 'lucide-react';
-import { Suspense } from 'react';
-
 import Artist from '@/app/(root)/_components/artist';
 import Search from '@/shared/components/search';
 import { SearchParamsType } from '@/shared/types';
 
-const Home = ({ searchParams }: SearchParamsType) => {
-  const searchStr = searchParams?.search || '';
+const Home = async ({ searchParams }: SearchParamsType) => {
+  const search = searchParams?.search || '';
   const entity = searchParams?.entity || '';
+
+  const response = await fetch(`https://itunes.apple.com/search?term=${search}&entity=${entity}`, {
+    cache: 'force-cache',
+  });
+  const data = await response.json();
 
   return (
     <>
@@ -15,9 +17,7 @@ const Home = ({ searchParams }: SearchParamsType) => {
         <Search />
       </section>
 
-      <Suspense fallback={<Loader2 className="size-44 animate-spin" />}>
-        <Artist search={searchStr} entity={entity} />
-      </Suspense>
+      <Artist data={data} search={search} entity={entity} />
     </>
   );
 };
