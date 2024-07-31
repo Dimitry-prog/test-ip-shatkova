@@ -11,18 +11,18 @@ const Filters = () => {
   const params = new URLSearchParams(searchParams);
 
   const handleChange = (value: string) => {
+    params.set('page', '1');
     if (!value) {
       params.delete('entity');
     } else {
       params.set('entity', value);
-      params.set('page', '1');
     }
 
     router.replace(`${pathname}?${params}`, { scroll: false });
   };
 
   return (
-    <Tabs defaultValue={params.get('entity') || 'all'}>
+    <Tabs defaultValue={params.get('entity') || 'all'} className="self-center">
       <TabsList>
         <TabsTrigger onClick={() => handleChange('')} value="all">
           All

@@ -36,8 +36,8 @@ const Paginations = ({ totalPages }: PaginationsProps) => {
             <PaginationPrevious href="" />
           </Button>
         </PaginationItem>
-        {Array.from({ length: Math.floor(totalPages / LIMIT_PER_PAGE) }).map((_, index) => (
-          <PaginationItem key={index + 1}>
+        {Array.from({ length: Math.ceil(totalPages / LIMIT_PER_PAGE) }).map((_, index) => (
+          <PaginationItem key={index}>
             <Button
               onClick={() => handleChangePage(index + 1)}
               variant={page === index + 1 ? 'outline' : 'ghost'}

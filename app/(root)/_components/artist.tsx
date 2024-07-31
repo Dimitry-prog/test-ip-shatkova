@@ -7,12 +7,13 @@ import { LIMIT_PER_PAGE } from '@/shared/lib/constants';
 type ArtistProps = {
   search: string;
   entity: string;
+  page: number;
   data: TunesType;
 };
 
-const Artist = async ({ data, search, entity }: ArtistProps) => {
+const Artist = ({ data, search, entity, page }: ArtistProps) => {
   return (
-    <section className="flex flex-col items-center gap-5">
+    <section className="flex flex-col gap-5">
       {(data.results?.length > 0 || entity) && search && <Filters />}
 
       {search && data.results?.length === 0 && (
@@ -20,10 +21,12 @@ const Artist = async ({ data, search, entity }: ArtistProps) => {
       )}
 
       {data.results?.length > 0 && (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {data.results.map((item, index) => (
-            <ArtistCard data={item} key={item.trackId + index} />
-          ))}
+        <div className="flex flex-col gap-5 md:grid md:grid-cols-2 xl:grid-cols-3">
+          {data.results
+            .slice((page - 1) * LIMIT_PER_PAGE, (page - 1) * LIMIT_PER_PAGE + LIMIT_PER_PAGE)
+            .map((item) => (
+              <ArtistCard data={item} key={item.trackId} />
+            ))}
         </div>
       )}
 
