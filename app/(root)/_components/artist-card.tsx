@@ -63,7 +63,7 @@ const ArtistCard = ({ data, onToggleFavorite, isFavorite }: ArtistCardProps) => 
 
         {data.collectionViewUrl && (
           <Button asChild variant="outline">
-            <Link href={data.collectionViewUrl} target="_blank">
+            <Link href={data.collectionViewUrl} target="_blank" data-testid="view-link">
               <EyeIcon className="size-4" />
             </Link>
           </Button>
