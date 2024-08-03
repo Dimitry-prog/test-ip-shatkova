@@ -37,7 +37,7 @@ const Search = () => {
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Seach something"
+        placeholder="Search something"
         className="border-none focus-visible:border-none focus-visible:ring-0 focus-visible:ring-offset-0"
       />
     </div>
