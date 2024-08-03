@@ -57,7 +57,11 @@ const ArtistCard = ({ data, onToggleFavorite, isFavorite }: ArtistCardProps) => 
           type={data.kind === 'song' ? 'song' : 'video'}
         />
 
-        <Button variant="outline" onClick={() => onToggleFavorite(data)}>
+        <Button
+          variant="outline"
+          onClick={() => onToggleFavorite(data)}
+          data-testid="toggle-favorite"
+        >
           <HeartIcon className={cn('size-4', isFavorite && 'fill-red-500 stroke-red-500')} />
         </Button>
 
