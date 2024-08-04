@@ -1,41 +1,27 @@
 'use client';
 
-import { SearchIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { SearchIcon, XIcon } from 'lucide-react';
 
+import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
-import { useDebounce } from '@/shared/hooks/use-debounce';
+import { useSearch } from '@/shared/hooks/use-search';
 import { cn } from '@/shared/lib/utils';
+import { ParamsToDeleteType, ParamsToSetType } from '@/shared/types';
 
 type SearchProps = {
+  paramsDelete?: ParamsToDeleteType;
+  paramsSet?: ParamsToSetType;
   placeholder?: string;
   className?: string;
 };
 
-const Search = ({ placeholder = 'Search something', className }: SearchProps) => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-  const [search, setSearch] = useState(searchParams.get('search') || '');
-  const debouncedSearch = useDebounce(search);
-
-  const handleChangeURLSearch = () => {
-    if (!debouncedSearch) {
-      params.delete('search');
-      params.delete('entity');
-      params.delete('page');
-    } else {
-      params.set('search', debouncedSearch);
-    }
-
-    router.replace(`${pathname}?${params}`, { scroll: false });
-  };
-
-  useEffect(() => {
-    handleChangeURLSearch();
-  }, [debouncedSearch]);
+const Search = ({
+  paramsDelete = ['page', 'search', 'entity'],
+  paramsSet = [],
+  placeholder = 'Search something',
+  className,
+}: SearchProps) => {
+  const { search, setSearch, onClearSearch } = useSearch(paramsDelete, paramsSet);
 
   return (
     <div
@@ -51,6 +37,18 @@ const Search = ({ placeholder = 'Search something', className }: SearchProps) =>
         placeholder={placeholder}
         className="border-none focus-visible:border-none focus-visible:ring-0 focus-visible:ring-offset-0"
       />
+      {search && (
+        <Button
+          onClick={() => {
+            onClearSearch();
+          }}
+          variant="ghost"
+          className="rounded-full px-2 py-1"
+          data-testid="clear search"
+        >
+          <XIcon className="size-3" />
+        </Button>
+      )}
     </div>
   );
 };

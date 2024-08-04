@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
 import { FavoritesProvider } from '@/shared/components/favorite-provider';
+import Header from '@/shared/components/header';
 import { Toaster } from '@/shared/components/ui/sonner';
 import { cn } from '@/shared/lib/utils';
 
@@ -25,11 +26,12 @@ export default function RootLayout({
       <FavoritesProvider>
         <body
           className={cn(
-            'grid min-h-[100dvh] grid-rows-1 bg-background font-sans antialiased',
+            'flex min-h-[100dvh] flex-col bg-background font-sans antialiased',
             inter.variable
           )}
         >
-          <main className="container my-6">{children}</main>
+          <Header />
+          <main className="container my-6 flex-1">{children}</main>
           <Toaster position="top-center" />
         </body>
       </FavoritesProvider>

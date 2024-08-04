@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import DownloadButton from '@/app/(root)/_components/download-button';
-import { useFavorites } from '@/app/(root)/_hooks/use-favorites';
 import { TunesDTOType } from '@/app/(root)/_types';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -16,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/components/ui/card';
+import { useFavorites } from '@/shared/hooks/use-favorites';
 import { cn, formatDate } from '@/shared/lib/utils';
 
 import { getCategoryType } from '../_utils';

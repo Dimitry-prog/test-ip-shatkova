@@ -8,3 +8,10 @@ export type FilterTabType = {
   value: string;
   label: string;
 };
+
+export type ParamsToSetType = {
+  key: string;
+  value: string;
+}[];
+
+export type ParamsToDeleteType = string[];

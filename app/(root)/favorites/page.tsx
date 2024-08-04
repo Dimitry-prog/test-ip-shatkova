@@ -4,8 +4,8 @@ import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import ArtistList from '@/app/(root)/_components/artist-list';
-import { useFavorites } from '@/app/(root)/_hooks/use-favorites';
 import { Button } from '@/shared/components/ui/button';
+import { useFavorites } from '@/shared/hooks/use-favorites';
 
 const FavoritesPage = () => {
   const router = useRouter();
