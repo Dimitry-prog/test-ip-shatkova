@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import DownloadButton from '@/app/(root)/_components/download-button';
+import { useFavorites } from '@/app/(root)/_hooks/use-favorites';
 import { TunesDTOType } from '@/app/(root)/_types';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -21,11 +22,11 @@ import { getCategoryType } from '../_utils';
 
 type ArtistCardProps = {
   data: TunesDTOType;
-  onToggleFavorite: (data: TunesDTOType) => void;
-  isFavorite: boolean;
 };
 
-const ArtistCard = ({ data, onToggleFavorite, isFavorite }: ArtistCardProps) => {
+const ArtistCard = ({ data }: ArtistCardProps) => {
+  const { onToggleFavorite, isFavorite } = useFavorites();
+
   return (
     <Card className="flex flex-col overflow-hidden">
       <div className="relative aspect-video h-auto w-full">
@@ -63,7 +64,7 @@ const ArtistCard = ({ data, onToggleFavorite, isFavorite }: ArtistCardProps) => 
           onClick={() => onToggleFavorite(data)}
           data-testid="toggle-favorite"
         >
-          <HeartIcon className={cn('size-4', isFavorite && 'fill-red-500 stroke-red-500')} />
+          <HeartIcon className={cn('size-4', isFavorite(data) && 'fill-red-500 stroke-red-500')} />
         </Button>
 
         {data.collectionViewUrl && (

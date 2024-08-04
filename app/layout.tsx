@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
+import { FavoritesProvider } from '@/shared/components/favorite-provider';
 import { Toaster } from '@/shared/components/ui/sonner';
 import { cn } from '@/shared/lib/utils';
 
@@ -21,15 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          'grid min-h-[100dvh] grid-rows-1 bg-background font-sans antialiased',
-          inter.variable
-        )}
-      >
-        <main className="container my-6">{children}</main>
-        <Toaster position="top-center" />
-      </body>
+      <FavoritesProvider>
+        <body
+          className={cn(
+            'grid min-h-[100dvh] grid-rows-1 bg-background font-sans antialiased',
+            inter.variable
+          )}
+        >
+          <main className="container my-6">{children}</main>
+          <Toaster position="top-center" />
+        </body>
+      </FavoritesProvider>
     </html>
   );
 }

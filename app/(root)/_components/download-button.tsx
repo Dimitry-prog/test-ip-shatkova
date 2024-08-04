@@ -25,6 +25,7 @@ const DownloadButton = ({ type, href, title }: DownloadButtonProps) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        toast.success('The song file has been successfully downloaded.');
       } else {
         const response = await fetch(href);
         const blob = await response.blob();
@@ -36,6 +37,7 @@ const DownloadButton = ({ type, href, title }: DownloadButtonProps) => {
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
+        toast.success('The video file has been successfully downloaded.');
       }
     } catch (e) {
       console.log(e);
