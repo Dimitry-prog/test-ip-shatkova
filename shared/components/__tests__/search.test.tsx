@@ -33,7 +33,7 @@ describe('Search Component', () => {
     jest.clearAllMocks();
   });
 
-  test('it should renders the search input', () => {
+  it('it should render the search input', () => {
     render(<Search />);
 
     const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
@@ -41,7 +41,7 @@ describe('Search Component', () => {
     expect(input).toBeInTheDocument();
   });
 
-  test('it should updates input value on change', () => {
+  it('it should update input value on change', () => {
     render(<Search />);
 
     const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
@@ -51,7 +51,7 @@ describe('Search Component', () => {
     expect(input).toHaveValue('test');
   });
 
-  test('it should update the URL when search input changes', () => {
+  it('it should update the URL when search input changes', () => {
     render(<Search />);
 
     const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
@@ -64,7 +64,7 @@ describe('Search Component', () => {
     });
   });
 
-  test('it should remove search parameter from URL when input is cleared', () => {
+  it('it should remove search parameter from URL when input is cleared', () => {
     render(<Search />);
 
     const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;

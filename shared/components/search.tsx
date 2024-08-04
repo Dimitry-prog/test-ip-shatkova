@@ -6,8 +6,14 @@ import { useEffect, useState } from 'react';
 
 import { Input } from '@/shared/components/ui/input';
 import { useDebounce } from '@/shared/hooks/use-debounce';
+import { cn } from '@/shared/lib/utils';
 
-const Search = () => {
+type SearchProps = {
+  placeholder?: string;
+  className?: string;
+};
+
+const Search = ({ placeholder = 'Search something', className }: SearchProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,12 +38,17 @@ const Search = () => {
   }, [debouncedSearch]);
 
   return (
-    <div className="flex items-center rounded-xl border border-input bg-background px-4 py-2 hover:border-gray-400">
+    <div
+      className={cn(
+        'flex items-center rounded-xl border border-input bg-background px-4 py-2 hover:border-gray-400',
+        className
+      )}
+    >
       <SearchIcon className="size-4" />
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search something"
+        placeholder={placeholder}
         className="border-none focus-visible:border-none focus-visible:ring-0 focus-visible:ring-offset-0"
       />
     </div>

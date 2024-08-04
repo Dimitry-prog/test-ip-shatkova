@@ -37,7 +37,7 @@ const Paginations = ({ totalPages }: PaginationsProps) => {
           </Button>
         </PaginationItem>
         {Array.from({ length: Math.ceil(totalPages / LIMIT_PER_PAGE) }).map((_, index) => (
-          <PaginationItem key={index}>
+          <PaginationItem key={index} className="hidden md:block">
             <Button
               onClick={() => handleChangePage(index + 1)}
               variant={page === index + 1 ? 'outline' : 'ghost'}

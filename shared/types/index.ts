@@ -3,3 +3,8 @@ export type SearchParamsType = {
     [k: string]: string | undefined;
   };
 };
+
+export type FilterTabType = {
+  value: string;
+  label: string;
+};

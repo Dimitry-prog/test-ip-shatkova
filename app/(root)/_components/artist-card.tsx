@@ -4,9 +4,8 @@ import { EyeIcon, HeartIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import DownloadButton from '@/app/(root)/_components/download-button';
 import { TunesDTOType } from '@/app/(root)/_types';
-import { getCategoryType } from '@/app/(root)/utils';
-import DownloadButton from '@/shared/components/download-button';
 import { Button } from '@/shared/components/ui/button';
 import {
   Card,
@@ -17,6 +16,8 @@ import {
   CardTitle,
 } from '@/shared/components/ui/card';
 import { cn, formatDate } from '@/shared/lib/utils';
+
+import { getCategoryType } from '../_utils';
 
 type ArtistCardProps = {
   data: TunesDTOType;

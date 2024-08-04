@@ -3,8 +3,16 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+import { FILTER_TABS_HOME } from '@/shared/lib/constants';
+import { cn } from '@/shared/lib/utils';
+import { FilterTabType } from '@/shared/types';
 
-const Filters = () => {
+type FiltersProps = {
+  tabs?: FilterTabType[];
+  className?: string;
+};
+
+const Filters = ({ tabs = FILTER_TABS_HOME, className }: FiltersProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,20 +30,13 @@ const Filters = () => {
   };
 
   return (
-    <Tabs defaultValue={params.get('entity') || 'all'} className="self-center">
+    <Tabs defaultValue={params.get('entity') || ''} className={cn(className)}>
       <TabsList>
-        <TabsTrigger onClick={() => handleChange('')} value="all">
-          All
-        </TabsTrigger>
-        <TabsTrigger onClick={() => handleChange('movie')} value="movie">
-          Movies
-        </TabsTrigger>
-        <TabsTrigger onClick={() => handleChange('audiobook')} value="audiobook">
-          Books
-        </TabsTrigger>
-        <TabsTrigger onClick={() => handleChange('song')} value="song">
-          Songs
-        </TabsTrigger>
+        {tabs.map((tab) => (
+          <TabsTrigger onClick={() => handleChange(tab.value)} value={tab.value} key={tab.value}>
+            {tab.label}
+          </TabsTrigger>
+        ))}
       </TabsList>
     </Tabs>
   );

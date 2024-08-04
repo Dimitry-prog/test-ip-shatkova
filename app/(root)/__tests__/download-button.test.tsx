@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { toast } from 'sonner';
 
-import DownloadButton from '@/shared/components/download-button';
+import DownloadButton from '@/app/(root)/_components/download-button';
 
 jest.mock('sonner', () => ({
   toast: {

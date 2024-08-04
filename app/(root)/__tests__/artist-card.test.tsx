@@ -49,7 +49,7 @@ const data: TunesDTOType = {
 describe('ArtistCard', () => {
   const onToggleFavorite = jest.fn();
 
-  it('it should renders the component', () => {
+  it('it should render the component', () => {
     render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
 
     expect(screen.getByRole('img')).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('ArtistCard', () => {
     expect(screen.getByText(`${data.trackPrice}$`)).toBeInTheDocument();
   });
 
-  it('it should calls onToggleFavorite when the favorite button is clicked', () => {
+  it('it should call onToggleFavorite when the favorite button is clicked', () => {
     render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
 
     const favoriteButton = screen.getByTestId('toggle-favorite');
@@ -68,7 +68,7 @@ describe('ArtistCard', () => {
     expect(onToggleFavorite).toHaveBeenCalledWith(data);
   });
 
-  it('it should renders the view link when collectionViewUrl is provided', () => {
+  it('it should render the view link when collectionViewUrl is provided', () => {
     render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
 
     const viewLink = screen.getByTestId('view-link');
@@ -78,7 +78,7 @@ describe('ArtistCard', () => {
     expect(viewLink).toHaveAttribute('href', data.collectionViewUrl);
   });
 
-  it('it should not renders the view link when collectionViewUrl is not provided', () => {
+  it('it should not render the view link when collectionViewUrl is not provided', () => {
     const mockDat = {
       ...data,
       collectionViewUrl: '',

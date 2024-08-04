@@ -1,4 +1,5 @@
-import Artist from '@/app/(root)/_components/artist';
+import ArtistList from '@/app/(root)/_components/artist-list';
+import Filters from '@/shared/components/filters';
 import Search from '@/shared/components/search';
 import { SearchParamsType } from '@/shared/types';
 
@@ -13,11 +14,17 @@ const Home = async ({ searchParams }: SearchParamsType) => {
 
   return (
     <>
-      <section className="mb-6">
-        <Search />
-      </section>
+      <Search className="mb-6" />
 
-      <Artist data={data} search={search} entity={entity} />
+      <section className="flex flex-col gap-5">
+        {(data.results?.length > 0 || entity) && search && <Filters className="self-center" />}
+
+        {search && data.results?.length === 0 && (
+          <p className="text-center text-xl">No results found</p>
+        )}
+
+        <ArtistList data={data} />
+      </section>
     </>
   );
 };
