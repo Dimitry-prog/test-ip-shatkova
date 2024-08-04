@@ -48,7 +48,7 @@ const DownloadButton = ({ type, href, title }: DownloadButtonProps) => {
   return (
     <Button onClick={handleDownload} disabled={isPending} variant="outline">
       {isPending ? (
-        <Loader2 className="size-4 animate-spin" />
+        <Loader2 className="size-4 animate-spin" data-testid="loader" />
       ) : (
         <DownloadIcon className="size-4" />
       )}
