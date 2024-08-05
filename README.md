@@ -1,4 +1,31 @@
+## Getting Started
+
+```bash
+npm run dev  // dev mod
+npm run test // test
+```
+
+### Features
+
+* Search
+* Pagination
+* Filters
+* Downloading sample
+* Add to favorites
+* Preview sample in store
+
+### Stack
+
+* Next
+* Typescript
+* Tailwind
+* Jest
+* eslint
+* prettier
+
 ### Test Assignment for React Front-end Developer Position
+
+<details><summary>Test</summary>
 
 **Objective:** Assess the developer's skills in using React, TypeScript, and Sass, as well as their ability to quickly
 understand documentation and make decisions on necessary functionality.
@@ -68,3 +95,4 @@ results.
 - Any additional external library can be used if reasonable.
 
 Good luck! We look forward to seeing your solution.
+</details>
