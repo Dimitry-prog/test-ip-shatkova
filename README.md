@@ -23,6 +23,10 @@ npm run test // test
 * eslint
 * prettier
 
+### Preview
+
+![image](https://github.com/user-attachments/assets/c57303ef-c208-4d94-b83b-14479f297a1d)
+
 ### Test Assignment for React Front-end Developer Position
 
 <details><summary>Test</summary>
