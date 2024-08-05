@@ -4,6 +4,14 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as nextRouting from 'next/navigation';
 
 import Filters from '@/shared/components/filters';
+import { FILTER_TABS_HOME } from '@/shared/lib/constants';
+import { FilterTabType } from '@/shared/types';
+
+const tabs: FilterTabType[] = [
+  { value: '', label: 'All' },
+  { value: 'test', label: 'Test' },
+  { value: 'video', label: 'Videos' },
+];
 
 jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
@@ -30,24 +38,25 @@ describe('Filters', () => {
     jest.clearAllMocks();
   });
 
-  it('it should render the filters', () => {
+  it(`it should render the filters with default tabs ${FILTER_TABS_HOME}`, () => {
     render(<Filters />);
 
     const tabList = screen.getByRole('tablist');
+    const tabElements = screen.getAllByRole('tab');
 
     expect(tabList).toBeInTheDocument();
+    expect(tabElements.length).toBe(4);
   });
 
-  it('it should render 4 tabs', () => {
-    render(<Filters />);
+  it(`it should render ${tabs}`, () => {
+    render(<Filters tabs={tabs} />);
 
-    const tabs = screen.getAllByRole('tab');
+    const tabElements = screen.getAllByRole('tab');
 
-    expect(tabs.length).toBe(4);
+    expect(tabElements.length).toBe(3);
     expect(screen.getByText('All')).toBeInTheDocument();
-    expect(screen.getByText('Movies')).toBeInTheDocument();
-    expect(screen.getByText('Books')).toBeInTheDocument();
-    expect(screen.getByText('Songs')).toBeInTheDocument();
+    expect(screen.getByText('Test')).toBeInTheDocument();
+    expect(screen.getByText('Videos')).toBeInTheDocument();
   });
 
   it('it should update the URL when tab is clicked', () => {

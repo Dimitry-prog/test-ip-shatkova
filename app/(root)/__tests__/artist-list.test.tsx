@@ -5,6 +5,7 @@ import * as nextRouting from 'next/navigation';
 
 import ArtistList from '@/app/(root)/_components/artist-list';
 import { TunesType } from '@/app/(root)/_types';
+import { FavoritesProvider } from '@/shared/components/favorite-provider';
 import { LIMIT_PER_PAGE } from '@/shared/lib/constants';
 
 const data: TunesType = {
@@ -1988,7 +1989,11 @@ describe('ArtistList', () => {
   });
 
   it('it should render a list with correct length of items', () => {
-    render(<ArtistList data={data} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={data} />
+      </FavoritesProvider>
+    );
 
     const artistArray = screen.getAllByRole('img');
 
@@ -1996,7 +2001,11 @@ describe('ArtistList', () => {
   });
 
   it('it should render a list with h3 tag', () => {
-    render(<ArtistList data={data} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={data} />
+      </FavoritesProvider>
+    );
 
     const heading = screen.getByRole('heading', { level: 3 });
 
@@ -2004,7 +2013,11 @@ describe('ArtistList', () => {
   });
 
   it("it should render a list with text Vivaldi's Rediscovery", () => {
-    render(<ArtistList data={data} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={data} />
+      </FavoritesProvider>
+    );
 
     const text = screen.getByText("Vivaldi's Rediscovery");
 
@@ -2012,7 +2025,11 @@ describe('ArtistList', () => {
   });
 
   it(`it should render link for view`, () => {
-    render(<ArtistList data={data} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={data} />
+      </FavoritesProvider>
+    );
 
     const link = screen.getByTestId('view-link');
 
@@ -2021,7 +2038,11 @@ describe('ArtistList', () => {
   });
 
   it(`it should not render pagination if data.length < ${LIMIT_PER_PAGE}`, async () => {
-    render(<ArtistList data={data} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={data} />
+      </FavoritesProvider>
+    );
 
     const pagination = screen.queryByLabelText('pagination');
 
@@ -2029,7 +2050,11 @@ describe('ArtistList', () => {
   });
 
   it(`it should render pagination if data.length > ${LIMIT_PER_PAGE}`, () => {
-    render(<ArtistList data={dataForPagination} />);
+    render(
+      <FavoritesProvider>
+        <ArtistList data={dataForPagination} />
+      </FavoritesProvider>
+    );
 
     const spanPrevious = screen.getByLabelText('Go to previous page');
     const spanNext = screen.getByLabelText('Go to next page');

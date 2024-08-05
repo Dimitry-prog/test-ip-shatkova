@@ -4,6 +4,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import ArtistCard from '@/app/(root)/_components/artist-card';
 import { TunesDTOType } from '@/app/(root)/_types';
+import { FavoritesProvider } from '@/shared/components/favorite-provider';
+import { useFavorites } from '@/shared/hooks/use-favorites';
 import { formatDate } from '@/shared/lib/utils';
 
 const data: TunesDTOType = {
@@ -46,11 +48,29 @@ const data: TunesDTOType = {
   isStreamable: true,
 };
 
+jest.mock('@/shared/hooks/use-favorites');
+
 describe('ArtistCard', () => {
   const onToggleFavorite = jest.fn();
 
+  beforeEach(() => {
+    (useFavorites as jest.Mock).mockImplementation(() => ({
+      favorites: [],
+      onToggleFavorite,
+      isFavorite: () => false,
+    }));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('it should render the component', () => {
-    render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
+    render(
+      <FavoritesProvider>
+        <ArtistCard data={data} />
+      </FavoritesProvider>
+    );
 
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByText(data.trackCensoredName)).toBeInTheDocument();
@@ -60,7 +80,11 @@ describe('ArtistCard', () => {
   });
 
   it('it should call onToggleFavorite when the favorite button is clicked', () => {
-    render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
+    render(
+      <FavoritesProvider>
+        <ArtistCard data={data} />
+      </FavoritesProvider>
+    );
 
     const favoriteButton = screen.getByTestId('toggle-favorite');
     fireEvent.click(favoriteButton);
@@ -69,7 +93,11 @@ describe('ArtistCard', () => {
   });
 
   it('it should render the view link when collectionViewUrl is provided', () => {
-    render(<ArtistCard data={data} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
+    render(
+      <FavoritesProvider>
+        <ArtistCard data={data} />
+      </FavoritesProvider>
+    );
 
     const viewLink = screen.getByTestId('view-link');
 
@@ -83,7 +111,11 @@ describe('ArtistCard', () => {
       ...data,
       collectionViewUrl: '',
     };
-    render(<ArtistCard data={mockDat} onToggleFavorite={onToggleFavorite} isFavorite={false} />);
+    render(
+      <FavoritesProvider>
+        <ArtistCard data={mockDat} />
+      </FavoritesProvider>
+    );
 
     const viewLink = screen.queryByTestId('view-link');
 

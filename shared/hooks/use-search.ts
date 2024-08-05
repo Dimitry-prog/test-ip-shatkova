@@ -4,11 +4,6 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from '@/shared/hooks/use-debounce';
 import { ParamsToDeleteType, ParamsToSetType } from '@/shared/types';
 
-type UseSearchProps = {
-  paramsDelete?: ParamsToDeleteType;
-  paramsSet?: ParamsToSetType;
-};
-
 export const useSearch = (
   paramsDelete: ParamsToDeleteType = [],
   paramsSet: ParamsToSetType = []

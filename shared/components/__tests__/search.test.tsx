@@ -1,44 +1,64 @@
 import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen } from '@testing-library/react';
-import * as nextRouting from 'next/navigation';
 
 import Search from '@/shared/components/search';
-import { useDebounce } from '@/shared/hooks/use-debounce';
+import { useSearch } from '@/shared/hooks/use-search';
 
-jest.mock('@/shared/hooks/use-debounce');
-jest.mock('next/navigation', () => ({
-  usePathname: jest.fn(),
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
-}));
+const paramsDelete = ['test', 'search', 'entity'];
+const paramsSet = [{ key: 'test', value: 'test' }];
+
+jest.mock('@/shared/hooks/use-search');
 
 describe('Search Component', () => {
-  let pathnameMock: string;
-  let routerMock: { replace: jest.Mock<void, [string, { scroll: boolean }]> };
-  let searchParamsMock: URLSearchParams;
+  const onClearSearch = jest.fn();
+  const setSearch = jest.fn();
+  const mockUseSearch = (overrides = {}) => {
+    const defaults = {
+      search: '',
+      setSearch,
+      onClearSearch,
+    };
+    (useSearch as jest.Mock).mockReturnValue({ ...defaults, ...overrides });
+  };
 
   beforeEach(() => {
-    pathnameMock = '/';
-    routerMock = { replace: jest.fn() };
-    searchParamsMock = new URLSearchParams();
-
-    (nextRouting.usePathname as jest.Mock).mockReturnValue(pathnameMock);
-    (nextRouting.useRouter as jest.Mock).mockReturnValue(routerMock);
-    (nextRouting.useSearchParams as jest.Mock).mockReturnValue(searchParamsMock);
-    (useDebounce as jest.Mock).mockImplementation((value) => value);
+    mockUseSearch();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('it should render the search input', () => {
+  it('it should render the search input without props', () => {
     render(<Search />);
 
     const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
 
     expect(input).toBeInTheDocument();
+  });
+
+  it('it should render the search input with prop placeholder=Test', () => {
+    render(<Search placeholder="Test" />);
+
+    const input = screen.getByPlaceholderText('Test') as HTMLInputElement;
+
+    expect(input).toBeInTheDocument();
+  });
+
+  it(`it should render the search input with prop paramsDelete=${paramsDelete} and paramsSet=${paramsSet}`, () => {
+    render(<Search paramsDelete={paramsDelete} paramsSet={paramsSet} />);
+
+    expect(useSearch).toHaveBeenCalledWith(paramsDelete, paramsSet);
+  });
+
+  it('it should displays the search value and clear button when search is not empty', () => {
+    mockUseSearch({ search: 'test search' });
+
+    render(<Search />);
+
+    expect(screen.getByDisplayValue('test search')).toBeInTheDocument();
+    expect(screen.getByTestId('clear search')).toBeInTheDocument();
   });
 
   it('it should update input value on change', () => {
@@ -48,45 +68,24 @@ describe('Search Component', () => {
 
     fireEvent.change(input, { target: { value: 'test' } });
 
-    expect(input).toHaveValue('test');
+    expect(setSearch).toHaveBeenCalledWith('test');
   });
 
-  it('it should update the URL when search input changes', () => {
-    render(<Search />);
-
-    const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
-
-    fireEvent.change(input, { target: { value: 'test' } });
-
-    expect(useDebounce).toHaveBeenCalledWith('test');
-    expect(routerMock.replace).toHaveBeenLastCalledWith(`${pathnameMock}?search=test`, {
-      scroll: false,
-    });
-  });
-
-  it('it should remove search parameter from URL when input is cleared', () => {
-    render(<Search />);
-
-    const input = screen.getByPlaceholderText('Search something') as HTMLInputElement;
-
-    fireEvent.change(input, { target: { value: 'test' } });
-    expect(useDebounce).toHaveBeenCalledWith('test');
-    expect(routerMock.replace).toHaveBeenCalledWith(`${pathnameMock}?search=test`, {
-      scroll: false,
-    });
-
-    fireEvent.change(input, { target: { value: '' } });
-    expect(useDebounce).toHaveBeenCalledWith('');
-    expect(routerMock.replace).toHaveBeenLastCalledWith(`${pathnameMock}?`, { scroll: false });
-  });
-
-  it('it should initialize with the search parameter from URL', () => {
-    searchParamsMock.set('search', 'test');
+  it('it should call onClearSearch when the clear button is clicked', () => {
+    mockUseSearch({ search: 'test', onClearSearch });
 
     render(<Search />);
 
-    const input = screen.getByDisplayValue('test');
+    fireEvent.click(screen.getByTestId('clear search'));
 
-    expect(input).toBeInTheDocument();
+    expect(onClearSearch).toHaveBeenCalledTimes(1);
+  });
+
+  it('it should show clear button if input not empty', () => {
+    mockUseSearch({ search: 'test' });
+
+    render(<Search />);
+
+    expect(screen.getByTestId('clear search')).toBeInTheDocument();
   });
 });
